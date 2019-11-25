@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://statenspersonadressregister.se/schema/komponent/sok/sokargument-1.1"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:person="http://statenspersonadressregister.se/schema/komponent/person/person-1.1"
+           xmlns:datum="http://statenspersonadressregister.se/schema/komponent/datum-1.0"
+           targetNamespace="http://statenspersonadressregister.se/schema/komponent/sok/sokargument-1.1"
+           elementFormDefault="qualified" version="0.9">
+    <xs:annotation>
+        <xs:appinfo>
+            <SchemaMetadata xmlns="se/skatteverket/zl/SchemaMetadata/1.0"
+                            xmlns:dc="http://purl.org/dc/elements/1.1/">
+                <dc:title>SPAR Komponent schema för sökargument till SPARs tjänster</dc:title>
+                <dc:description>Komponent schema för sökargument till SPARs tjänster</dc:description>
+                <dc:publisher>Skatteverket SPAR</dc:publisher>
+                <dc:creator>
+                    <dc:contact>www.statenspersonadressregister.se</dc:contact>
+                </dc:creator>
+                <dc:date>
+                    <dc:created>2019-08-01</dc:created>
+                </dc:date>
+            </SchemaMetadata>
+        </xs:appinfo>
+    </xs:annotation>
+
+    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/datum-1.0" schemaLocation="../generellt/Datum-1.0.xsd"/>
+    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/person/person-1.1" schemaLocation="../person/Person-1.1.xsd"/>
+
+    <xs:element name="NamnSokArgument" type="NamnSokArgumentTYPE"/>
+    <xs:simpleType name="NamnSokArgumentTYPE">
+        <xs:annotation>
+            <xs:documentation>
+                Sökargument där förnamn, mellannamn och efternamn, åtskilda av mellanslag,
+                förekommer i godtycklig ordning. Tillåter wild card *.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\w+[\w\s*\-']*"/>
+            <xs:minLength value="1"/>
+            <xs:maxLength value="80"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="FonetiskSokning" type="FonetiskSokningTYPE">
+        <xs:annotation>
+            <xs:documentation>
+                Anger om sökning på namn ska matcha stavningen i sökargumentet eller om namn med liknande
+                uttal också ska ge träff.
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+    <xs:simpleType name="FonetiskSokningTYPE">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="J">
+                <xs:annotation>
+                    <xs:documentation>Namn med liknande uttal ger också träff.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="N">
+                <xs:annotation>
+                    <xs:documentation>Endast namn med samma stavning ger träff.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="EgenReferens" type="EgenReferensTYPE"/>
+    <xs:simpleType name="EgenReferensTYPE">
+        <xs:annotation>
+            <xs:documentation>Kundens egen referens.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[\w\d\p{Zs}\-/_.,:]*"/>
+            <xs:minLength value="1"/>
+            <xs:maxLength value="80"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="FornamnSokArgument" type="FornamnSokArgumentTYPE"/>
+    <xs:simpleType name="FornamnSokArgumentTYPE">
+        <xs:annotation>
+            <xs:documentation>
+                Sökargument där förnamn, åtskilda av mellanslag, förekommer i godtycklig ordning.
+                Tillåter wild card *.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\w+[\w\s*\-']*"/>
+            <xs:minLength value="1"/>
+            <xs:maxLength value="80"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="MellanEfternamnSokArgument" type="MellanEfternamnSokArgumentTYPE"/>
+    <xs:simpleType name="MellanEfternamnSokArgumentTYPE">
+        <xs:annotation>
+            <xs:documentation>
+                Sökargument där mellannamn och efternamn, åtskilda av mellanslag, förekommer i godtycklig ordning.
+                Tillåter wild card *.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\w+[\w\s*\-']*"/>
+            <xs:minLength value="1"/>
+            <xs:maxLength value="60"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="AdressSokArgument" type="AdressSokArgumentTYPE"/>
+    <xs:simpleType name="AdressSokArgumentTYPE">
+        <xs:annotation>
+            <xs:documentation>
+                Sökargument med care-of, gatuadress eller motsvarande åtskilda av mellanslag.
+                Tillåter wild card *.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\w+[\w\s*\-/.,:]*"/>
+            <xs:minLength value="1"/>
+            <xs:maxLength value="35"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="CareOfSokArgument" type="CareOfSokArgumentTYPE"/>
+    <xs:simpleType name="CareOfSokArgumentTYPE">
+        <xs:annotation>
+            <xs:documentation>
+                Sökargument för C/O delen i adressen.
+                Tillåter wildcard *.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\w+[\w\s*\-/.,:]*"/>
+            <xs:minLength value="1"/>
+            <xs:maxLength value="60"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="PostNr" type="PostNrSokArgumentTYPE"/>
+    <xs:element name="PostNrFran" type="PostNrSokArgumentTYPE"/>
+    <xs:element name="PostNrTill" type="PostNrSokArgumentTYPE"/>
+    <xs:simpleType name="PostNrSokArgumentTYPE">
+        <xs:annotation>
+            <xs:documentation>Sökargument för postnummer.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:length value="5"/>
+            <xs:pattern value="[1-9][0-9][0-9][0-9][0-9]"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="PostortSokArgument" type="PostortSokArgumentTYPE"/>
+    <xs:simpleType name="PostortSokArgumentTYPE">
+        <xs:annotation>
+            <xs:documentation>
+                Tillåter ett eller flera argument åtskilda av mellanslag.
+                Tillåter wild card *.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\w+[\w\s*\-]*"/>
+            <xs:minLength value="1"/>
+            <xs:maxLength value="27"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="DistriktKod" type="DistriktKodTYPE"/>
+    <xs:element name="DistriktKodFrom" type="DistriktKodTYPE"/>
+    <xs:element name="DistriktKodTom" type="DistriktKodTYPE"/>
+    <xs:simpleType name="DistriktKodTYPE">
+        <xs:annotation>
+            <xs:documentation>Distriktkod</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[1-9][0-9][0-9][0-9][0-9][0-9]"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="LanKod" type="LanKodTYPE"/>
+    <xs:simpleType name="LanKodTYPE">
+        <xs:annotation>
+            <xs:documentation>Svenska länskoder.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9][0-9]"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="KommunKod" type="KommunKodTYPE"/>
+    <xs:simpleType name="KommunKodTYPE">
+        <xs:annotation>
+            <xs:documentation>
+                Svenska kommunkoder,
+                även länskod behövs för att ge en unik kommun.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9][0-9]"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="ForsamlingKod" type="ForsamlingKodTYPE"/>
+    <xs:simpleType name="ForsamlingKodTYPE">
+        <xs:annotation>
+            <xs:documentation>
+                Svenska församlingskoder,
+                även kommun och länskod behövs för att ge en unik församling.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9][0-9]"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="Kon" type="KonTYPE"/>
+    <xs:simpleType name="KonTYPE">
+        <xs:annotation>
+            <xs:documentation>Kön</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:length value="1"/>
+            <xs:enumeration value="M">
+                <xs:annotation>
+                    <xs:documentation>Man</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="K">
+                <xs:annotation>
+                    <xs:documentation>Kvinna</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="UtdelningsadressSokArgument" type="UtdelningsadressSokArgumentTYPE"/>
+    <xs:simpleType name="UtdelningsadressSokArgumentTYPE">
+        <xs:annotation>
+            <xs:documentation>
+                Sökargument med gatuadress eller motsvarande åtskillda av mellanslag.
+                Tillåter wild card *.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\w+[\w\s*\-/.,:]*"/>
+            <xs:minLength value="1"/>
+            <xs:maxLength value="100"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="PersonId" type="PersonIdTYPE"/>
+    <xs:complexType name="PersonIdTYPE">
+        <xs:sequence>
+            <xs:element ref="person:FysiskPersonId"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="Fodelsetid" type="datum:SparDatumTYPE"/>
+    <xs:element name="FodelsetidFran" type="datum:SparDatumTYPE"/>
+    <xs:element name="FodelsetidTill" type="datum:SparDatumTYPE"/>
+</xs:schema>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://statenspersonadressregister.se/schema/komponent/datum-1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://statenspersonadressregister.se/schema/komponent/datum-1.0"
+           elementFormDefault="qualified" version="0.9">
+    <xs:annotation>
+        <xs:appinfo>
+            <SchemaMetadata xmlns="http://xmls.skatteverket.se/se/skatteverket/zl/SchemaMetadata/1.0"
+                            xmlns:dc="http://purl.org/dc/elements/1.1/">
+                <dc:title>Datum i SPAR</dc:title>
+                <dc:description>Datum i SPAR</dc:description>
+                <dc:publisher>Skatteverket SPAR</dc:publisher>
+                <dc:creator>
+                    <dc:contact>www.statenspersonadressregister.se</dc:contact>
+                </dc:creator>
+                <dc:date>
+                    <dc:created>2019-08-01</dc:created>
+                </dc:date>
+            </SchemaMetadata>
+        </xs:appinfo>
+    </xs:annotation>
+
+    <xs:element name="DatumFrom" type="SparDatumTYPE"/>
+    <xs:element name="DatumTill" type="SparDatumTYPE"/>
+
+    <xs:group name="DatumIntervall">
+        <xs:sequence>
+            <xs:annotation>
+                <xs:documentation>
+                    Datum från och med och datum till skickas när historik används.
+                    Datum till 9999-12-31 betyder att det är en aktuell post.
+                </xs:documentation>
+            </xs:annotation>
+            <xs:element ref="DatumFrom"/>
+            <xs:element ref="DatumTill"/>
+        </xs:sequence>
+    </xs:group>
+
+    <xs:simpleType name="SparDatumTYPE">
+        <xs:annotation>
+            <xs:documentation>
+                Ett datum på format YYYY-MM-DD.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:date">
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="SparOfullstandigtDatumTYPE">
+        <xs:annotation>
+            <xs:documentation>
+                Datum som kan vara helt eller delvis ofullständigt.
+
+                Formatterat som YYYY-MM-DD, om datumvärdet har åtta siffror. Annars 0 till 7 siffror (utan avskiljare).
+                Exempel:
+                2019-01-01
+                2019-01-00
+                2019-00-00
+                0000-00-00
+                200101
+                2001
+                0
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string"/>
+    </xs:simpleType>
+
+</xs:schema>

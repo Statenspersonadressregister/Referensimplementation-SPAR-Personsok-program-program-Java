@@ -6,4 +6,4 @@ COPY src/ /spar/src
 COPY pom.xml /spar/pom.xml
 
 RUN mvn install
-CMD mvn exec:java -Dexec.mainClass="se.statenspersonadressregister.referensimplementation.PersonSokExempel"
+CMD mvn exec:java -Dexec.mainClass="se.statenspersonadressregister.referensimplementation.PersonsokExempel"

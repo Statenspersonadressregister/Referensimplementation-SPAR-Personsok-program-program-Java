@@ -7,7 +7,7 @@
     <name>SPAR personsök referensimplementation</name>
     <groupId>se.statenspersonadressregister.referensimplementation</groupId>
     <artifactId>personsok</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>2019.1</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -18,40 +18,93 @@
 
     <build>
         <plugins>
-            <!-- JAXB2 genererar Javakod från xsd-filer -->
             <plugin>
+                <!-- Här produceras källkoden från WSDL och XSD:er -->
                 <groupId>org.codehaus.mojo</groupId>
-                <artifactId>jaxb2-maven-plugin</artifactId>
-                <version>2.3</version>
+                <artifactId>jaxws-maven-plugin</artifactId>
+                <version>2.5</version>
                 <executions>
                     <execution>
-                        <id>personsok-20160213</id>
                         <goals>
-                            <goal>xjc</goal>
+                            <goal>wsimport</goal>
                         </goals>
                         <configuration>
-                            <sources>
-                                <source>src/main/resources/se/statenspersonadressregister/xsd/version20160213/SPARPersonsokning.xsd</source>
-                            </sources>
-                            <packageName>se.statenspersonadressregister.personsok.version20160213</packageName>
-                            <noPackageLevelAnnotations>true</noPackageLevelAnnotations>
+                            <wsdlDirectory>src/main/resources/se/statenspersonadressregister/</wsdlDirectory>
+                            <wsdlFiles>personsok.wsdl</wsdlFiles>
+                        </configuration>
+                        <id>wsimport-web-service</id>
+                        <phase>generate-sources</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <vmArgs>
+                        <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+                    </vmArgs>
+                    <sourceDestDir>target/generated-sources/jaxws-wsimport</sourceDestDir>
+                    <xnocompile>true</xnocompile>
+                    <verbose>true</verbose>
+                    <extension>true</extension>
+                    <catalog>src/main/resources/se/statenspersonadressregister/catalog-mvn.cat</catalog>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>1.4.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <bannedDependencies>
+                                    <excludes>
+                                        <!-- Hindra log4j från att bli inkluderad, är ersatt med log4j-over-slf4j -->
+                                        <exclude>log4j:log4j</exclude>
+                                    </excludes>
+                                </bannedDependencies>
+                            </rules>
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
             </plugin>
         </plugins>
     </build>
 
     <dependencies>
         <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>log4j-over-slf4j</artifactId>
+            <version>1.7.26</version>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.26</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.5.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.5.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

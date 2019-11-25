@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://statenspersonadressregister.se/schema/komponent/person/adress/deladeadresselement-1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:datum="http://statenspersonadressregister.se/schema/komponent/datum-1.0"
+           targetNamespace="http://statenspersonadressregister.se/schema/komponent/person/adress/deladeadresselement-1.0"
+           elementFormDefault="qualified" version="0.9">
+    <xs:annotation>
+        <xs:appinfo>
+            <SchemaMetadata xmlns="http://xmls.skatteverket.se/se/skatteverket/zl/SchemaMetadata/1.0"
+                            xmlns:dc="http://purl.org/dc/elements/1.1/">
+                <dc:title>SPAR Komponent schema för Adresser</dc:title>
+                <dc:description>Komponent schema för Adressrelaterade element i SPAR.</dc:description>
+                <dc:publisher>Skatteverket SPAR</dc:publisher>
+                <dc:creator>
+                    <dc:contact>www.statenspersonadressregister.se</dc:contact>
+                </dc:creator>
+                <dc:date>
+                    <dc:created>2019-08-01</dc:created>
+                </dc:date>
+            </SchemaMetadata>
+        </xs:appinfo>
+    </xs:annotation>
+
+    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/datum-1.0" schemaLocation="../../generellt/Datum-1.0.xsd"/>
+
+    <xs:element name="CareOf" type="CareOfTYPE"/>
+    <xs:simpleType name="CareOfTYPE">
+        <xs:annotation>
+            <xs:documentation>Care-of adress</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="35"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="Utdelningsadress1" type="UtdelningsadressTYPE"/>
+    <xs:element name="Utdelningsadress2" type="UtdelningsadressTYPE"/>
+    <xs:element name="Utdelningsadress3" type="UtdelningsadressTYPE"/>
+    <xs:simpleType name="UtdelningsadressTYPE">
+        <xs:annotation>
+            <xs:documentation>Gatuadress, box etc.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="35"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="PostNr" type="PostNrTYPE"/>
+    <xs:simpleType name="PostNrTYPE">
+        <xs:restriction base="xs:string">
+            <xs:length value="5"/>
+            <xs:pattern value="[1-9][0-9][0-9][0-9][0-9]"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="Postort" type="PostortTYPE"/>
+    <xs:simpleType name="PostortTYPE">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="27"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:group name="SvenskAdress">
+        <xs:annotation>
+            <xs:documentation>Adress i Sverige.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:group ref="datum:DatumIntervall" minOccurs="0"/>
+            <xs:element ref="CareOf" minOccurs="0"/>
+            <xs:element ref="Utdelningsadress1" minOccurs="0"/>
+            <xs:element ref="Utdelningsadress2" minOccurs="0"/>
+            <xs:element ref="PostNr" minOccurs="0"/>
+            <xs:element ref="Postort" minOccurs="0"/>
+        </xs:sequence>
+    </xs:group>
+</xs:schema>

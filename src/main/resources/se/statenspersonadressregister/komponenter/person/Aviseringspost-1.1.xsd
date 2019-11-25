@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://statenspersonadressregister.se/schema/komponent/person/aviseringspost-1.1"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:fba="http://statenspersonadressregister.se/schema/komponent/person/adress/folkbokforingsadress-1.0"
+           xmlns:spa="http://statenspersonadressregister.se/schema/komponent/person/adress/sarskildpostadress-1.0"
+           xmlns:ua="http://statenspersonadressregister.se/schema/komponent/person/adress/utlandsadress-1.0"
+           xmlns:person="http://statenspersonadressregister.se/schema/komponent/person/person-1.1"
+           xmlns:skydd="http://statenspersonadressregister.se/schema/komponent/person/skyddadepersonuppgifter-1.0"
+           xmlns:pdt="http://statenspersonadressregister.se/schema/komponent/person/persondetaljer-1.1"
+           xmlns:fastighet="http://statenspersonadressregister.se/schema/komponent/person/fastighetstaxering-1.1"
+           xmlns:inkomst="http://statenspersonadressregister.se/schema/komponent/person/inkomsttaxering-1.1"
+           xmlns:relation="http://statenspersonadressregister.se/schema/komponent/person/relation-1.1"
+           targetNamespace="http://statenspersonadressregister.se/schema/komponent/person/aviseringspost-1.1"
+           elementFormDefault="qualified" version="0.9">
+
+    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/person/adress/folkbokforingsadress-1.0" schemaLocation="adress/Folkbokforingsadress-1.0.xsd"/>
+    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/person/adress/sarskildpostadress-1.0" schemaLocation="adress/SarskildPostadress-1.0.xsd"/>
+    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/person/adress/utlandsadress-1.0" schemaLocation="adress/Utlandsadress-1.0.xsd"/>
+    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/person/fastighetstaxering-1.1" schemaLocation="Fastighetstaxering-1.1.xsd"/>
+    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/person/person-1.1" schemaLocation="Person-1.1.xsd"/>
+    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/person/persondetaljer-1.1" schemaLocation="Persondetaljer-1.1.xsd"/>
+    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/person/relation-1.1" schemaLocation="Relation-1.1.xsd"/>
+    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/person/inkomsttaxering-1.1" schemaLocation="Inkomsttaxering-1.1.xsd"/>
+    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/person/skyddadepersonuppgifter-1.0" schemaLocation="SkyddadePersonuppgifter-1.0.xsd"/>
+    <xs:annotation>
+        <xs:appinfo>
+            <SchemaMetadata xmlns="http://xmls.skatteverket.se/se/skatteverket/zl/SchemaMetadata/1.0"
+                            xmlns:dc="http://purl.org/dc/elements/1.1/">
+                <dc:title>SPAR Komponent schema Aviseringsinformation</dc:title>
+                <dc:description>
+                    Komponentschema för all personinformation i SPAR som skickas till kunder i form av
+                    avisering eller som resultat av söktjänster.
+                </dc:description>
+                <dc:publisher>Skatteverket SPAR</dc:publisher>
+                <dc:creator>
+                    <dc:contact>www.statenspersonadressregister.se</dc:contact>
+                </dc:creator>
+                <dc:date>
+                    <dc:created>2019-08-01</dc:created>
+                </dc:date>
+            </SchemaMetadata>
+        </xs:appinfo>
+    </xs:annotation>
+    <xs:element name="AviseringsPoster" type="AviseringsPosterTYPE"/>
+    <xs:complexType name="AviseringsPosterTYPE">
+        <xs:sequence>
+            <xs:element ref="AviseringsPost" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="AviseringsPost" type="AviseringsPostTYPE"/>
+    <xs:complexType name="AviseringsPostTYPE">
+        <xs:annotation>
+            <xs:documentation>En komplett post med personinformation för en fysisk person i SPAR</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element ref="person:PersonId"/>
+            <xs:element ref="skydd:Sekretessmarkering"/>
+            <xs:element ref="skydd:SekretessAndringsdatum" minOccurs="0"/>
+            <xs:element ref="skydd:SkyddadFolkbokforing"/>
+            <xs:element ref="skydd:SkyddadFolkbokforingAndringsdatum" minOccurs="0"/>
+            <xs:element ref="person:SenasteAndringSPAR" minOccurs="0"/>
+            <xs:element ref="inkomst:SummeradInkomst" minOccurs="0"/>
+            <xs:element ref="inkomst:InkomstAr" minOccurs="0"/>
+            <xs:element ref="pdt:Persondetaljer" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="fba:Folkbokforingsadress" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="spa:SarskildPostadress" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="ua:Utlandsadress" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="relation:Relation" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="fastighet:Fastighet" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
