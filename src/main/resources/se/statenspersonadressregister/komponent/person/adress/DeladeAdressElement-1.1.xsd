@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://statenspersonadressregister.se/schema/komponent/person/adress/deladeadresselement-1.1"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:datumtid="http://statenspersonadressregister.se/schema/komponent/generellt/datumtid-1.1"
+           targetNamespace="http://statenspersonadressregister.se/schema/komponent/person/adress/deladeadresselement-1.1"
+           elementFormDefault="qualified">
+    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/generellt/datumtid-1.1" schemaLocation="../../generellt/DatumTid-1.1.xsd"/>
+    <xs:annotation>
+        <xs:appinfo>
+            <xs:documentation>
+                Skapad 2021-10-08
+            </xs:documentation>
+        </xs:appinfo>
+    </xs:annotation>
+
+    <xs:element name="CareOf" type="CareOfTYPE"/>
+    <xs:simpleType name="CareOfTYPE">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="35"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="Utdelningsadress1" type="UtdelningsadressTYPE"/>
+    <xs:element name="Utdelningsadress2" type="UtdelningsadressTYPE"/>
+    <xs:element name="Utdelningsadress3" type="UtdelningsadressTYPE"/>
+    <xs:simpleType name="UtdelningsadressTYPE">
+        <xs:annotation>
+            <xs:documentation>Gatuadress, box etc.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="35"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="PostNr" type="PostNrTYPE"/>
+    <xs:simpleType name="PostNrTYPE">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[1-9][0-9]{4}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="Postort" type="PostortTYPE"/>
+    <xs:simpleType name="PostortTYPE">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="27"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="Land" type="LandTYPE"/>
+    <xs:simpleType name="LandTYPE">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="35"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:group name="SvenskAdress">
+        <xs:sequence>
+            <xs:group ref="datumtid:DatumIntervall" minOccurs="0"/>
+            <xs:element ref="CareOf" minOccurs="0"/>
+            <xs:element ref="Utdelningsadress1" minOccurs="0"/>
+            <xs:element ref="Utdelningsadress2" minOccurs="0"/>
+            <xs:element ref="PostNr" minOccurs="0"/>
+            <xs:element ref="Postort" minOccurs="0"/>
+        </xs:sequence>
+    </xs:group>
+
+    <xs:group name="InternationellAdress">
+        <xs:annotation>
+            <xs:documentation>Adress i Sverige eller utlandet</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:group ref="datumtid:DatumIntervall" minOccurs="0"/>
+            <xs:element ref="Utdelningsadress1" minOccurs="0"/>
+            <xs:element ref="Utdelningsadress2" minOccurs="0"/>
+            <xs:element ref="Utdelningsadress3" minOccurs="0"/>
+            <xs:element ref="Land" minOccurs="0"/>
+        </xs:sequence>
+    </xs:group>
+
+    <xs:element name="InternationellAdress" type="InternationellAdressTYPE"/>
+    <xs:complexType name="InternationellAdressTYPE">
+        <xs:sequence>
+            <xs:group ref="InternationellAdress"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="SvenskAdress" type="SvenskAdressTYPE"/>
+    <xs:complexType name="SvenskAdressTYPE">
+        <xs:sequence>
+            <xs:group ref="SvenskAdress"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>

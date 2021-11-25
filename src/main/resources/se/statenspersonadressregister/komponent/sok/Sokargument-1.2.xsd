@@ -1,29 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns="http://statenspersonadressregister.se/schema/komponent/sok/sokargument-1.1"
+<xs:schema xmlns="http://statenspersonadressregister.se/schema/komponent/sok/sokargument-1.2"
+           targetNamespace="http://statenspersonadressregister.se/schema/komponent/sok/sokargument-1.2"
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           xmlns:person="http://statenspersonadressregister.se/schema/komponent/person/person-1.1"
-           xmlns:datum="http://statenspersonadressregister.se/schema/komponent/datum-1.0"
-           targetNamespace="http://statenspersonadressregister.se/schema/komponent/sok/sokargument-1.1"
-           elementFormDefault="qualified" version="0.9">
+           xmlns:datumtid="http://statenspersonadressregister.se/schema/komponent/generellt/datumtid-1.1"
+           xmlns:typ="http://statenspersonadressregister.se/schema/komponent/generellt/typ-1.0"
+           elementFormDefault="qualified">
+    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/generellt/datumtid-1.1" schemaLocation="../generellt/DatumTid-1.1.xsd"/>
+    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/person/person-1.2" schemaLocation="../person/Person-1.2.xsd"/>
+    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/generellt/typ-1.0" schemaLocation="../generellt/Typ-1.0.xsd"/>
     <xs:annotation>
         <xs:appinfo>
-            <SchemaMetadata xmlns="se/skatteverket/zl/SchemaMetadata/1.0"
-                            xmlns:dc="http://purl.org/dc/elements/1.1/">
-                <dc:title>SPAR Komponent schema för sökargument till SPARs tjänster</dc:title>
-                <dc:description>Komponent schema för sökargument till SPARs tjänster</dc:description>
-                <dc:publisher>Skatteverket SPAR</dc:publisher>
-                <dc:creator>
-                    <dc:contact>www.statenspersonadressregister.se</dc:contact>
-                </dc:creator>
-                <dc:date>
-                    <dc:created>2019-08-01</dc:created>
-                </dc:date>
-            </SchemaMetadata>
+            <xs:documentation>
+                Skapad 2021-10-08
+            </xs:documentation>
         </xs:appinfo>
     </xs:annotation>
-
-    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/datum-1.0" schemaLocation="../generellt/Datum-1.0.xsd"/>
-    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/person/person-1.1" schemaLocation="../person/Person-1.1.xsd"/>
 
     <xs:element name="NamnSokArgument" type="NamnSokArgumentTYPE"/>
     <xs:simpleType name="NamnSokArgumentTYPE">
@@ -40,33 +31,18 @@
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:element name="FonetiskSokning" type="FonetiskSokningTYPE">
+    <xs:element name="FonetiskSokning" type="typ:JaNejTYPE">
         <xs:annotation>
             <xs:documentation>
-                Anger om sökning på namn ska matcha stavningen i sökargumentet eller om namn med liknande
-                uttal också ska ge träff.
+                Fonetisk sökning ger träff på namn med liknande uttal. Annars endast exakt stavning.
             </xs:documentation>
         </xs:annotation>
     </xs:element>
-    <xs:simpleType name="FonetiskSokningTYPE">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="J">
-                <xs:annotation>
-                    <xs:documentation>Namn med liknande uttal ger också träff.</xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-            <xs:enumeration value="N">
-                <xs:annotation>
-                    <xs:documentation>Endast namn med samma stavning ger träff.</xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-        </xs:restriction>
-    </xs:simpleType>
 
     <xs:element name="EgenReferens" type="EgenReferensTYPE"/>
     <xs:simpleType name="EgenReferensTYPE">
         <xs:annotation>
-            <xs:documentation>Kundens egen referens.</xs:documentation>
+            <xs:documentation>Kundens referens</xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
             <xs:pattern value="[\w\d\p{Zs}\-/_.,:]*"/>
@@ -123,10 +99,7 @@
     <xs:element name="CareOfSokArgument" type="CareOfSokArgumentTYPE"/>
     <xs:simpleType name="CareOfSokArgumentTYPE">
         <xs:annotation>
-            <xs:documentation>
-                Sökargument för C/O delen i adressen.
-                Tillåter wildcard *.
-            </xs:documentation>
+            <xs:documentation> Tillåter wildcard * </xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
             <xs:pattern value="\w+[\w\s*\-/.,:]*"/>
@@ -136,15 +109,11 @@
     </xs:simpleType>
 
     <xs:element name="PostNr" type="PostNrSokArgumentTYPE"/>
-    <xs:element name="PostNrFran" type="PostNrSokArgumentTYPE"/>
-    <xs:element name="PostNrTill" type="PostNrSokArgumentTYPE"/>
+    <xs:element name="PostNrFrom" type="PostNrSokArgumentTYPE"/>
+    <xs:element name="PostNrTom" type="PostNrSokArgumentTYPE"/>
     <xs:simpleType name="PostNrSokArgumentTYPE">
-        <xs:annotation>
-            <xs:documentation>Sökargument för postnummer.</xs:documentation>
-        </xs:annotation>
         <xs:restriction base="xs:string">
-            <xs:length value="5"/>
-            <xs:pattern value="[1-9][0-9][0-9][0-9][0-9]"/>
+            <xs:pattern value="[1-9][0-9]{4}"/>
         </xs:restriction>
     </xs:simpleType>
 
@@ -167,21 +136,15 @@
     <xs:element name="DistriktKodFrom" type="DistriktKodTYPE"/>
     <xs:element name="DistriktKodTom" type="DistriktKodTYPE"/>
     <xs:simpleType name="DistriktKodTYPE">
-        <xs:annotation>
-            <xs:documentation>Distriktkod</xs:documentation>
-        </xs:annotation>
         <xs:restriction base="xs:string">
-            <xs:pattern value="[1-9][0-9][0-9][0-9][0-9][0-9]"/>
+            <xs:pattern value="[1-9][0-9]{5}"/>
         </xs:restriction>
     </xs:simpleType>
 
     <xs:element name="LanKod" type="LanKodTYPE"/>
     <xs:simpleType name="LanKodTYPE">
-        <xs:annotation>
-            <xs:documentation>Svenska länskoder.</xs:documentation>
-        </xs:annotation>
         <xs:restriction base="xs:string">
-            <xs:pattern value="[0-9][0-9]"/>
+            <xs:pattern value="[0-9]{2}"/>
         </xs:restriction>
     </xs:simpleType>
 
@@ -194,40 +157,7 @@
             </xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
-            <xs:pattern value="[0-9][0-9]"/>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:element name="ForsamlingKod" type="ForsamlingKodTYPE"/>
-    <xs:simpleType name="ForsamlingKodTYPE">
-        <xs:annotation>
-            <xs:documentation>
-                Svenska församlingskoder,
-                även kommun och länskod behövs för att ge en unik församling.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:pattern value="[0-9][0-9]"/>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:element name="Kon" type="KonTYPE"/>
-    <xs:simpleType name="KonTYPE">
-        <xs:annotation>
-            <xs:documentation>Kön</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:length value="1"/>
-            <xs:enumeration value="M">
-                <xs:annotation>
-                    <xs:documentation>Man</xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-            <xs:enumeration value="K">
-                <xs:annotation>
-                    <xs:documentation>Kvinna</xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
+            <xs:pattern value="[0-9]{2}"/>
         </xs:restriction>
     </xs:simpleType>
 
@@ -235,7 +165,7 @@
     <xs:simpleType name="UtdelningsadressSokArgumentTYPE">
         <xs:annotation>
             <xs:documentation>
-                Sökargument med gatuadress eller motsvarande åtskillda av mellanslag.
+                Sökargument med gatuadress eller motsvarande åtskilda av mellanslag.
                 Tillåter wild card *.
             </xs:documentation>
         </xs:annotation>
@@ -246,14 +176,8 @@
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:element name="PersonId" type="PersonIdTYPE"/>
-    <xs:complexType name="PersonIdTYPE">
-        <xs:sequence>
-            <xs:element ref="person:FysiskPersonId"/>
-        </xs:sequence>
-    </xs:complexType>
-
-    <xs:element name="Fodelsetid" type="datum:SparDatumTYPE"/>
-    <xs:element name="FodelsetidFran" type="datum:SparDatumTYPE"/>
-    <xs:element name="FodelsetidTill" type="datum:SparDatumTYPE"/>
+    <xs:element name="Kon" type="typ:KonTYPE"/>
+    <xs:element name="Fodelsedatum" type="datumtid:SparDatumTYPE"/>
+    <xs:element name="FodelsedatumFrom" type="datumtid:SparDatumTYPE"/>
+    <xs:element name="FodelsedatumTom" type="datumtid:SparDatumTYPE"/>
 </xs:schema>

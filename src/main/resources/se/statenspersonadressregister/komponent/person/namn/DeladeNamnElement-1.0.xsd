@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://statenspersonadressregister.se/schema/komponent/person/namn/deladenamnelement-1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://statenspersonadressregister.se/schema/komponent/person/namn/deladenamnelement-1.0"
+           elementFormDefault="qualified">
+    <xs:annotation>
+        <xs:appinfo>
+            <xs:documentation>
+                Skapad 2021-10-08
+            </xs:documentation>
+        </xs:appinfo>
+    </xs:annotation>
+
+    <xs:element name="Aviseringsnamn" type="AviseringsnamnTYPE"/>
+    <xs:simpleType name="AviseringsnamnTYPE">
+        <xs:annotation>
+            <xs:documentation>
+                Aviseringsnamn är en av folkbokföringen förkortad version av hela namnet att användas
+                vid utskrift på kuvert etc.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="36"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="Efternamn" type="EfternamnTYPE"/>
+    <xs:simpleType name="EfternamnTYPE">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="60"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="Fornamn" type="FornamnTYPE"/>
+    <xs:simpleType name="FornamnTYPE">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="80"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="Mellannamn" type="MellannamnTYPE"/>
+    <xs:simpleType name="MellannamnTYPE">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="40"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="Tillskrift" type="TillskriftTYPE"/>
+    <xs:simpleType name="TillskriftTYPE">
+        <xs:annotation>
+            <xs:documentation>
+                Tillskrift används vid adressering av dödsbo: "Till dödsboet efter".
+                Fler användningar kan tillkomma.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="35"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="Tilltalsnamn" type="TilltalsnamnTYPE"/>
+    <xs:simpleType name="TilltalsnamnTYPE">
+        <xs:annotation>
+            <xs:documentation>
+                Kod som anger vilka av förnamnen som är tilltalsnamn
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:int">
+            <xs:minInclusive value="10"/>
+            <xs:maxInclusive value="99"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

@@ -25,24 +25,12 @@ public class SPARKomponenterClasspathXSDResolver implements LSResourceResolver {
             return null;
         }
 
-        if(nonNull(systemId)) {
-            String[] xsdDelar = systemId.split("deladeKomponenter");
-            if (xsdDelar.length == 2) {
+        if(isPart(systemId, "granssnitt")) {
+            return classpathLSIput(publicId, systemId, baseURI, "granssnitt", "/se/statenspersonadressregister/granssnitt");
+        }
 
-                try {
-                    URL classpathUrl = this.getClass().getResource("/se/statenspersonadressregister/komponenter" + xsdDelar[1]);
-                    return new ClasspathLSInput(publicId, systemId, baseURI, classpathUrl, UTF_8.name());
-                } catch (IOException e) {
-                    log.warn("Kunde inte hitta [{}] [{}] [{}] [{}] [{}]",
-                             type,
-                             namespaceURI,
-                             publicId,
-                             systemId,
-                             baseURI,
-                             e);
-                    throw new IllegalArgumentException("Hittade inte " + systemId, e);
-                }
-            }
+        if(isPart(systemId, "komponent")) {
+            return classpathLSIput(publicId, systemId, baseURI,"komponent", "/se/statenspersonadressregister/komponent");
         }
 
         log.warn("Kunde inte hitta, uppfyllde ingen defenierad path [{}] [{}] [{}] [{}] [{}]",
@@ -52,6 +40,21 @@ public class SPARKomponenterClasspathXSDResolver implements LSResourceResolver {
                  systemId,
                  baseURI);
         return null;
+    }
+
+    private LSInput classpathLSIput(String publicId, String systemId, String baseUri, String part, String localPath) {
+        String[] xsdDelar = systemId.split(part);
+        try {
+            URL classpathUrl = this.getClass().getResource(localPath + xsdDelar[1]);
+            return new ClasspathLSInput(publicId, systemId, baseUri, classpathUrl, UTF_8.name());
+        } catch (IOException e) {
+            log.warn("Kunde inte hitta [{}] [{}]", publicId, systemId, e);
+            throw new IllegalArgumentException("Hittade inte " + systemId, e);
+        }
+    }
+
+    private boolean isPart(String systemId, String partRegEx) {
+        return systemId != null && systemId.split(partRegEx).length == 2;
     }
 
     private boolean isRelativeSPARPath(String systemId, String namespaceURI) {

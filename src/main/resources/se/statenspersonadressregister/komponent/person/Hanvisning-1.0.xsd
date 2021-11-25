@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://statenspersonadressregister.se/schema/komponent/person/hanvisning-1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:person="http://statenspersonadressregister.se/schema/komponent/person/person-1.2"
+           targetNamespace="http://statenspersonadressregister.se/schema/komponent/person/hanvisning-1.0"
+           elementFormDefault="qualified">
+    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/person/person-1.2" schemaLocation="Person-1.2.xsd"/>
+
+    <xs:annotation>
+        <xs:appinfo>
+            <xs:documentation>
+                Skapad 2021-10-08
+            </xs:documentation>
+        </xs:appinfo>
+    </xs:annotation>
+
+    <xs:element name="Hanvisning" type="HanvisningTYPE"/>
+    <xs:complexType name="HanvisningTYPE">
+        <xs:sequence>
+            <xs:element ref="person:IdNummer"/>
+            <xs:element name="Typ" type="HanvisningTypTYPE" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="HanvisningTypTYPE">
+        <xs:annotation>
+            <xs:documentation>
+                Typ anger:
+                * Till: Personen har bytt id-nummer till ett nytt nummmer. Hänvisningen anger det nya id-numret.
+                * Från: Personen har bytt id-nummer från ett gammalt nummer. Hänvisningen anger det gamla id-numret.
+                * inget värde: Personen har eller har haft ett annat id-nummer. Hänvisningen anger detta id-nummer.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Till">
+                <xs:annotation>
+                    <xs:documentation>Hänvisning till nytt nummer</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="Fran">
+                <xs:annotation>
+                    <xs:documentation>Hänvisning från gammalt nummer</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+</xs:schema>

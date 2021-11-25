@@ -20,7 +20,7 @@ import java.security.cert.CertificateException;
 import java.util.Optional;
 
 /**
- * Hjälpklass för att anrop till SPAR personsök pgm pgm 2019.1 ska ske med klientcertifikat
+ * Hjälpklass för att anrop till SPAR personsök pgm pgm 2021.1 ska ske med klientcertifikat
  */
 public class KlientCertifikatSSLContext {
     private static final Logger log = LoggerFactory.getLogger(KlientCertifikatSSLContext.class);

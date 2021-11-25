@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://statenspersonadressregister.se/schema/komponent/person/inkomsttaxering-1.2"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://statenspersonadressregister.se/schema/komponent/person/inkomsttaxering-1.2"
+           elementFormDefault="qualified">
+    <xs:annotation>
+        <xs:appinfo>
+            <xs:documentation>
+                Skapad 2021-10-08
+            </xs:documentation>
+        </xs:appinfo>
+    </xs:annotation>
+
+    <xs:element name="SummeradInkomst" type="SummeradInkomstTYPE"/>
+    <xs:simpleType name="SummeradInkomstTYPE">
+        <xs:annotation>
+            <xs:documentation>Summerad inkomst i SEK</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{1,11}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="InkomstAr" type="InkomstArTYPE"/>
+    <xs:simpleType name="InkomstArTYPE">
+        <xs:annotation>
+            <xs:documentation>Inkomstår för summerad inkomst</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="2[0-9]{3}"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

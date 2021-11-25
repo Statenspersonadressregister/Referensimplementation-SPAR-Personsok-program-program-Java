@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://statenspersonadressregister.se/schema/komponent/person/relation-1.2"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:person="http://statenspersonadressregister.se/schema/komponent/person/person-1.2"
+           xmlns:namn="http://statenspersonadressregister.se/schema/komponent/person/namn/deladenamnelement-1.0"
+           xmlns:avreg="http://statenspersonadressregister.se/schema/komponent/person/avregistrering-1.0"
+           xmlns:datumtid="http://statenspersonadressregister.se/schema/komponent/generellt/datumtid-1.1"
+           targetNamespace="http://statenspersonadressregister.se/schema/komponent/person/relation-1.2"
+           elementFormDefault="qualified">
+    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/person/person-1.2" schemaLocation="Person-1.2.xsd"/>
+    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/person/namn/deladenamnelement-1.0" schemaLocation="namn/DeladeNamnElement-1.0.xsd"/>
+    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/person/avregistrering-1.0" schemaLocation="Avregistrering-1.0.xsd"/>
+    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/generellt/datumtid-1.1" schemaLocation="../generellt/DatumTid-1.1.xsd"/>
+    <xs:annotation>
+        <xs:appinfo>
+            <xs:documentation>
+                Skapad 2021-10-08
+            </xs:documentation>
+        </xs:appinfo>
+    </xs:annotation>
+
+    <xs:element name="Relation" type="RelationTYPE"/>
+    <xs:complexType name="RelationTYPE">
+        <xs:sequence>
+            <xs:group ref="datumtid:DatumIntervall" minOccurs="0"/>
+            <xs:element ref="Relationstyp"/>
+            <xs:element ref="person:IdNummer" minOccurs="0"/>
+            <xs:element ref="namn:Fornamn" minOccurs="0"/>
+            <xs:element ref="namn:Mellannamn" minOccurs="0"/>
+            <xs:element ref="namn:Efternamn" minOccurs="0"/>
+            <xs:element ref="Fodelsetid" minOccurs="0"/>
+            <xs:element ref="avreg:AvregistreringsorsakKod" minOccurs="0"/>
+            <xs:element ref="avreg:Avregistreringsdatum" minOccurs="0"/>
+            <xs:element ref="avreg:Avlidendatum" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="Relationstyp" type="RelationstypTYPE"/>
+    <xs:simpleType name="RelationstypTYPE">
+        <xs:annotation>
+            <xs:documentation>Typ av relation</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="VÅRDNADSHAVARE"/>
+            <xs:enumeration value="MAKE/MAKA/REGISTRERAD PARTNER"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="Fodelsetid" type="datumtid:SparDatumTYPE"/>
+    <xs:annotation>
+        <xs:documentation>Förekommer endast om id-nummer saknas</xs:documentation>
+    </xs:annotation>
+</xs:schema>

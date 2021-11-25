@@ -2,21 +2,19 @@ package se.statenspersonadressregister.referensimplementation;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import se.statenspersonadressregister.personsok._2019.PersonsokService;
-import se.statenspersonadressregister.personsok._2019.PersonsokService_Service;
+import se.statenspersonadressregister.personsok._2021.PersonsokService;
+import se.statenspersonadressregister.personsok._2021.PersonsokService_Service;
 import se.statenspersonadressregister.referensimplementation.installningar.KlientCertifikatInformation;
 import se.statenspersonadressregister.referensimplementation.installningar.PersonsokInstallningar;
 import se.statenspersonadressregister.referensimplementation.validering.ValidationHandlerResolver;
-import se.statenspersonadressregister.schema.komponent.sok.identifieringsinformation_1.IdentifieringsInformationTYPE;
-import se.statenspersonadressregister.schema.komponent.sok.personsokningsfraga_1.SPARPersonsokningFraga;
+import se.statenspersonadressregister.schema.komponent.generellt.typ_1.JaNejTYPE;
+import se.statenspersonadressregister.schema.komponent.metadata.identifieringsinformationws_1.IdentifieringsinformationTYPE;
 import se.statenspersonadressregister.schema.komponent.sok.personsokningsokparametrar_1.PersonsokningFragaTYPE;
-import se.statenspersonadressregister.schema.komponent.sok.personsokningsvar_1.SPARPersonsokningSvar;
-import se.statenspersonadressregister.schema.komponent.sok.sokargument_1.FonetiskSokningTYPE;
-import se.statenspersonadressregister.schema.komponent.sok.sokargument_1.PersonIdTYPE;
+import se.statenspersonadressregister.schema.personsok._2021_1.personsokningfraga.SPARPersonsokningFraga;
+import se.statenspersonadressregister.schema.personsok._2021_1.personsokningsvar.SPARPersonsokningSvar;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.WebServiceException;
 import java.io.IOException;
@@ -26,9 +24,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Map;
-import java.util.Optional;
 
 import static java.util.Objects.isNull;
 import static javax.xml.ws.BindingProvider.ENDPOINT_ADDRESS_PROPERTY;
@@ -36,7 +32,7 @@ import static se.statenspersonadressregister.referensimplementation.loggning.Per
 import static se.statenspersonadressregister.referensimplementation.verktyg.KlientCertifikatSSLContext.createSSLContextMedKlientCertfikikat;
 
 /**
- * Referensimplementation till SPAR Personsök program-program, version 20160213.
+ * Referensimplementation till SPAR Personsök program-program, version 2021.1.
  * Använder Java-klasser genererade av JAXB från xsd-filer. För att generera klasser kör <i>mvn install</i>.
  * <p>
  * För information om detaljer och betydelser i fråga och svar, se gränssnittsmanualen på SPAR:s hemsida.
@@ -53,8 +49,8 @@ public class PersonsokExempel {
     private final PersonsokInstallningar personsokInstallningar;
     private final DatatypeFactory datatypeFactory;
 
-    private final se.statenspersonadressregister.schema.komponent.sok.identifieringsinformation_1.ObjectFactory
-        identifieringsInformationFactory = new se.statenspersonadressregister.schema.komponent.sok.identifieringsinformation_1.ObjectFactory();
+    private final se.statenspersonadressregister.schema.komponent.metadata.identifieringsinformationws_1.ObjectFactory
+        identifieringsInformationFactory = new se.statenspersonadressregister.schema.komponent.metadata.identifieringsinformationws_1.ObjectFactory();
     private final se.statenspersonadressregister.schema.komponent.sok.personsokningsokparametrar_1.ObjectFactory
         personsokningSokParametrarFactory = new se.statenspersonadressregister.schema.komponent.sok.personsokningsokparametrar_1.ObjectFactory();
 
@@ -104,13 +100,15 @@ public class PersonsokExempel {
      * Demonstration av referensimplementationen.
      */
     private void demonstration() throws CertificateException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException, IOException {
-        log.info("Startar demonstration av Personsök program-program, version 2019.1");
+        log.info("Startar demonstration av Personsök program-program, version 2021.1");
 
-        PersonsokService personsokClient = createClient("https://kt-ext-ws.statenspersonadressregister.se/2019.1/", createKlientCertifikatInformation());
+        PersonsokService personsokClient = createClient("https://kt-ext-ws.statenspersonadressregister.se/2021.1/", createKlientCertifikatInformation());
 
-        log.debug("Sökning på personid 197910312391");
+        final String personId = "197910312391";
+        log.debug("Sökning på personid " + personId);
         SPARPersonsokningSvar svarPersonIdSokning = personsokClient.personSok(
-            createSPARPersonsokningFraga(createIdentifieringsInformation(), createPersonsokningFragaPersonId("197910312391")));
+            createSPARPersonsokningFraga(createIdentifieringsInformation(), createPersonsokningFragaPersonId(personId)));
+
         logSPARPersonsokningSvar(svarPersonIdSokning);
 
         log.debug("Sökning på felaktigt personid");
@@ -162,10 +160,10 @@ public class PersonsokExempel {
     /**
      * Skapar och returnerar en SPARPersonsokningFraga, huvudelementet i en fråga till personsök i SPAR
      */
-    protected SPARPersonsokningFraga createSPARPersonsokningFraga(IdentifieringsInformationTYPE identifieringsInformation,
+    protected SPARPersonsokningFraga createSPARPersonsokningFraga(IdentifieringsinformationTYPE identifieringsInformation,
                                                                   PersonsokningFragaTYPE personsokningFraga) {
         SPARPersonsokningFraga sparPersonsokningFraga = new SPARPersonsokningFraga();
-        sparPersonsokningFraga.setIdentifieringsInformation(identifieringsInformation);
+        sparPersonsokningFraga.setIdentifieringsinformation(identifieringsInformation);
         sparPersonsokningFraga.setPersonsokningFraga(personsokningFraga);
         return sparPersonsokningFraga;
     }
@@ -173,28 +171,14 @@ public class PersonsokExempel {
     /**
      * Skapar och returnerar IdentifieringsInformation
      */
-    protected IdentifieringsInformationTYPE createIdentifieringsInformation() {
-        IdentifieringsInformationTYPE identifieringsInformationTYPE = identifieringsInformationFactory.createIdentifieringsInformationTYPE();
+    protected IdentifieringsinformationTYPE createIdentifieringsInformation() {
+        IdentifieringsinformationTYPE identifieringsInformationTYPE = identifieringsInformationFactory.createIdentifieringsinformationTYPE();
         identifieringsInformationTYPE.setKundNrLeveransMottagare(personsokInstallningar.getKundNrLeveransMottagare());
         identifieringsInformationTYPE.setKundNrSlutkund(personsokInstallningar.getKundNrSlutkund());
-        identifieringsInformationTYPE.setUppdragsId(personsokInstallningar.getUppdragsId());
-        identifieringsInformationTYPE.setOrgNrSlutkund(personsokInstallningar.getOrgNrSlutkund());
+        identifieringsInformationTYPE.setUppdragId(personsokInstallningar.getUppdragsId());
         identifieringsInformationTYPE.setSlutAnvandarId(personsokInstallningar.getSlutAnvandarId());
-        XMLGregorianCalendar tidsstampel = toXMLGregorianCalendarDate(new Date());
-        identifieringsInformationTYPE.setTidsstampel(tidsstampel);
 
-        log.debug("Skapat IdentifieringsInformation med tidstämpel [{}]", tidsstampel);
         return identifieringsInformationTYPE;
-    }
-
-    /**
-     * Skapar en XMLGregorianCalendar som ger innehåll i format "yyyy-MM-dd'T'HH:mm:ss.SSS"
-     */
-    public XMLGregorianCalendar toXMLGregorianCalendarDate(Date date) {
-        return Optional.ofNullable(date)
-                .map(d -> TIDSTAMPEL_DATE_FORMAT.format(d))
-                .map(str -> datatypeFactory.newXMLGregorianCalendar(str))
-                .orElse(null);
     }
 
     /**
@@ -202,9 +186,7 @@ public class PersonsokExempel {
      */
     protected PersonsokningFragaTYPE createPersonsokningFragaPersonId(String personId) {
         PersonsokningFragaTYPE personsokningFraga = personsokningSokParametrarFactory.createPersonsokningFragaTYPE();
-        PersonIdTYPE personIdTYPE = new PersonIdTYPE();
-        personIdTYPE.setFysiskPersonId(personId);
-        personsokningFraga.setPersonId(personIdTYPE);
+        personsokningFraga.setIdNummer(personId);
         return personsokningFraga;
     }
 
@@ -213,7 +195,7 @@ public class PersonsokExempel {
      */
     protected PersonsokningFragaTYPE createPersonsokningFragaFonetiskNamnSok(String fonetisktNamn) {
         PersonsokningFragaTYPE personsokningFraga = personsokningSokParametrarFactory.createPersonsokningFragaTYPE();
-        personsokningFraga.setFonetiskSokning(FonetiskSokningTYPE.J);
+        personsokningFraga.setFonetiskSokning(JaNejTYPE.JA);
         personsokningFraga.setNamnSokArgument(fonetisktNamn);
         return personsokningFraga;
     }

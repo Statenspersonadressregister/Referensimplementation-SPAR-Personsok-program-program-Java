@@ -23,7 +23,7 @@ public class ValidationHandlerResolver implements HandlerResolver {
     public List<Handler> getHandlerChain(PortInfo portInfo) {
         try {
             return singletonList(new SOAPValidationHandler("PersonSok",
-                                                           "http://xmls.statenspersonadressregister.se/se/spar/deladeKomponenter/sok/PersonsokningFraga-1.0.xsd",
+                                                           "http://xmls.statenspersonadressregister.se/se/spar/granssnitt/personsok/2021.1/PersonsokningFraga.xsd",
                                                            SOAP_REQUEST));
         } catch (SAXException | TransformerConfigurationException e) {
             log.error("Kunde inte skapa SOAPValidationHandler", e);

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://statenspersonadressregister.se/schema/komponent/person/folkbokforing-1.0"
+           targetNamespace="http://statenspersonadressregister.se/schema/komponent/person/folkbokforing-1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:datumtid="http://statenspersonadressregister.se/schema/komponent/generellt/datumtid-1.1"
+           elementFormDefault="qualified">
+    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/generellt/datumtid-1.1" schemaLocation="../generellt/DatumTid-1.1.xsd"/>
+    <xs:annotation>
+        <xs:appinfo>
+            <xs:documentation>
+                Skapad 2021-10-08
+            </xs:documentation>
+        </xs:appinfo>
+    </xs:annotation>
+
+    <xs:element name="Folkbokforing" type="FolkbokforingTYPE"/>
+    <xs:complexType name="FolkbokforingTYPE">
+        <xs:sequence>
+            <xs:group ref="datumtid:DatumIntervall" minOccurs="0"/>
+            <xs:element ref="FolkbokfordLanKod" minOccurs="0"/>
+            <xs:element ref="FolkbokfordKommunKod" minOccurs="0"/>
+            <xs:element ref="Hemvist" minOccurs="0"/>
+            <xs:element ref="Folkbokforingsdatum" minOccurs="0"/>
+            <xs:element ref="DistriktKod" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="FolkbokfordLanKod" type="LanKodTYPE"/>
+    <xs:element name="LanKod" type="LanKodTYPE"/>
+    <xs:simpleType name="LanKodTYPE">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{2}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="FolkbokfordKommunKod" type="KommunKodTYPE"/>
+    <xs:element name="KommunKod" type="KommunKodTYPE"/>
+    <xs:simpleType name="KommunKodTYPE">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{2}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="Folkbokforingsdatum" type="datumtid:SparDatumTYPE"/>
+
+    <xs:element name="DistriktKod" type="DistriktKodTYPE"/>
+    <xs:simpleType name="DistriktKodTYPE">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[1-9][0-9]{5}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="Hemvist" type="HemvistTYPE"/>
+    <xs:simpleType name="HemvistTYPE">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Skriven på adressen">
+                <xs:annotation>
+                    <xs:documentation>Skriven på adressen</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="På kommunen skriven">
+                <xs:annotation>
+                    <xs:documentation>På kommunen skriven</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="Utan känt hemvist">
+                <xs:annotation>
+                    <xs:documentation>Utan känt hemvist</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

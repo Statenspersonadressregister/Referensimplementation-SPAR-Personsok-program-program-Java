@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://statenspersonadressregister.se/schema/personsok/2021.1/personsokningsvar"
+           targetNamespace="http://statenspersonadressregister.se/schema/personsok/2021.1/personsokningsvar"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:sok="http://statenspersonadressregister.se/schema/komponent/sok/personsokningsokparametrar-1.1"
+           xmlns:aviseringspost="http://statenspersonadressregister.se/schema/komponent/person/aviseringpost-1.2"
+           xmlns:undantag="http://statenspersonadressregister.se/schema/komponent/sok/undantag-1.0"
+           elementFormDefault="qualified">
+    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/sok/personsokningsokparametrar-1.1" schemaLocation="../../../komponent/sok/PersonsokningSokparametrar-1.1.xsd"/>
+    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/sok/undantag-1.0" schemaLocation="../../../komponent/sok/Undantag-1.0.xsd" />
+    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/person/aviseringpost-1.2" schemaLocation="../../../komponent/person/AviseringPost-1.2.xsd" />
+    <xs:annotation>
+        <xs:appinfo>
+            <xs:documentation>
+                Skapad 2021-10-08
+            </xs:documentation>
+        </xs:appinfo>
+    </xs:annotation>
+
+    <xs:element name="SPARPersonsokningSvar">
+        <xs:annotation>
+            <xs:documentation>
+                Innehåller frågan samt svarsposter utan sortering
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="sok:PersonsokningFraga" minOccurs="0"/>
+                <xs:choice>
+                    <xs:element ref="PersonsokningSvarspost" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element ref="undantag:Undantag" minOccurs="0"/>
+                    <xs:element ref="undantag:OverstigerMaxAntalSvarsposter" minOccurs="0"/>
+                </xs:choice>
+                <xs:element name="UUID" type="xs:string" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="PersonsokningSvarspost" type="aviseringspost:AviseringPostTYPE"/>
+
+</xs:schema>

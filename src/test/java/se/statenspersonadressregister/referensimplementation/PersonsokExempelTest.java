@@ -2,10 +2,10 @@ package se.statenspersonadressregister.referensimplementation;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import se.statenspersonadressregister.personsok._2019.PersonsokService;
-import se.statenspersonadressregister.schema.komponent.sok.personsokningsfraga_1.SPARPersonsokningFraga;
+import se.statenspersonadressregister.personsok._2021.PersonsokService;
 import se.statenspersonadressregister.schema.komponent.sok.personsokningsokparametrar_1.PersonsokningFragaTYPE;
-import se.statenspersonadressregister.schema.komponent.sok.personsokningsvar_1.SPARPersonsokningSvar;
+import se.statenspersonadressregister.schema.personsok._2021_1.personsokningfraga.SPARPersonsokningFraga;
+import se.statenspersonadressregister.schema.personsok._2021_1.personsokningsvar.SPARPersonsokningSvar;
 
 import javax.xml.ws.WebServiceException;
 
@@ -19,8 +19,9 @@ class PersonsokExempelTest {
     @BeforeAll
     static void setup() throws Exception {
         personsokExempel = new PersonsokExempel();
-        personsokKlient = personsokExempel.createClient("https://kt-ext-ws.statenspersonadressregister.se/2019.1/", personsokExempel
-            .createKlientCertifikatInformation());
+        personsokKlient = personsokExempel.createClient(
+                "https://kt-ext-ws.statenspersonadressregister.se/2021.1/",
+                personsokExempel.createKlientCertifikatInformation());
     }
 
     @Test
@@ -33,10 +34,10 @@ class PersonsokExempelTest {
         SPARPersonsokningSvar svar = personsokKlient.personSok(sparPersonsokningFraga);
 
         assertNull(svar.getOverstigerMaxAntalSvarsposter());
-        assertEquals(0, svar.getUndantag().size());
-        assertEquals(1, svar.getPersonsokningSvarsPost().size());
-        assertEquals("Jerry Felipe", svar.getPersonsokningSvarsPost().get(0).getPersondetaljer().get(0).getFornamn());
-        assertEquals("Efternamn3663", svar.getPersonsokningSvarsPost().get(0).getPersondetaljer().get(0).getEfternamn());
+        assertNull(svar.getUndantag());
+        assertEquals(1, svar.getPersonsokningSvarspost().size());
+        assertEquals("Jerry Felipe", svar.getPersonsokningSvarspost().get(0).getNamn().get(0).getFornamn());
+        assertEquals("Efternamn3663", svar.getPersonsokningSvarspost().get(0).getNamn().get(0).getEfternamn());
     }
 
     @Test
@@ -61,8 +62,8 @@ class PersonsokExempelTest {
         SPARPersonsokningSvar svar = personsokKlient.personSok(sparPersonsokningFraga);
 
         assertNull(svar.getOverstigerMaxAntalSvarsposter());
-        assertEquals(0, svar.getUndantag().size());
-        assertTrue(svar.getPersonsokningSvarsPost().size() > 1);
+        assertNull(svar.getUndantag());
+        assertTrue(svar.getPersonsokningSvarspost().size() > 1);
     }
 
     @Test
@@ -75,8 +76,8 @@ class PersonsokExempelTest {
         SPARPersonsokningSvar svar = personsokKlient.personSok(sparPersonsokningFraga);
 
         assertNull(svar.getOverstigerMaxAntalSvarsposter());
-        assertEquals(0, svar.getUndantag().size());
-        assertEquals(0, svar.getPersonsokningSvarsPost().size());
+        assertNull(svar.getUndantag());
+        assertEquals(0, svar.getPersonsokningSvarspost().size());
     }
 
     @Test
@@ -89,9 +90,9 @@ class PersonsokExempelTest {
         SPARPersonsokningSvar svar = personsokKlient.personSok(sparPersonsokningFraga);
 
         assertNotNull(svar.getOverstigerMaxAntalSvarsposter());
-        assertEquals(0, svar.getUndantag().size());
-        assertEquals(0, svar.getPersonsokningSvarsPost().size());
+        assertNull(svar.getUndantag());
+        assertEquals(0, svar.getPersonsokningSvarspost().size());
         assertTrue(svar.getOverstigerMaxAntalSvarsposter().getAntalPoster() > 100);
-        assertEquals(100, svar.getOverstigerMaxAntalSvarsposter().getMaxAntalSvarsPoster());
+        assertEquals(100, svar.getOverstigerMaxAntalSvarsposter().getMaxAntalSvarsposter());
     }
 }

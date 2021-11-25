@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://statenspersonadressregister.se/schema/komponent/person/persondetaljer-1.2"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:hanvisning="http://statenspersonadressregister.se/schema/komponent/person/hanvisning-1.0"
+           xmlns:skydd="http://statenspersonadressregister.se/schema/komponent/person/skyddadepersonuppgifter-1.1"
+           xmlns:avreg="http://statenspersonadressregister.se/schema/komponent/person/avregistrering-1.0"
+           xmlns:sn="http://statenspersonadressregister.se/schema/komponent/person/samordningsnummer-1.0"
+           xmlns:datumtid="http://statenspersonadressregister.se/schema/komponent/generellt/datumtid-1.1"
+           xmlns:typ="http://statenspersonadressregister.se/schema/komponent/generellt/typ-1.0"
+           targetNamespace="http://statenspersonadressregister.se/schema/komponent/person/persondetaljer-1.2"
+           elementFormDefault="qualified">
+    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/person/hanvisning-1.0" schemaLocation="Hanvisning-1.0.xsd"/>
+    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/person/skyddadepersonuppgifter-1.1" schemaLocation="SkyddadePersonuppgifter-1.1.xsd"/>
+    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/person/avregistrering-1.0" schemaLocation="Avregistrering-1.0.xsd"/>
+    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/person/samordningsnummer-1.0" schemaLocation="Samordningsnummer-1.0.xsd"/>
+    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/generellt/datumtid-1.1" schemaLocation="../generellt/DatumTid-1.1.xsd"/>
+    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/generellt/typ-1.0" schemaLocation="../generellt/Typ-1.0.xsd"/>
+    <xs:annotation>
+        <xs:appinfo>
+            <xs:documentation>
+                Skapad 2021-10-08
+            </xs:documentation>
+        </xs:appinfo>
+    </xs:annotation>
+
+    <xs:element name="Persondetaljer" type="PersondetaljerTYPE"/>
+    <xs:complexType name="PersondetaljerTYPE">
+        <xs:annotation>
+            <xs:documentation>
+                Detaljerad information direkt relaterad till personen som SPAR för de uppgifter SPAR
+                sparar historik. Poster som saknar elementen DatumFrom och DatumTom avser aktuell information.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:group ref="datumtid:DatumIntervall" minOccurs="0"/>
+            <xs:element ref="skydd:Sekretessmarkering" minOccurs="0"/>
+            <xs:element ref="skydd:SkyddadFolkbokforing" minOccurs="0"/>
+            <xs:element ref="avreg:AvregistreringsorsakKod" minOccurs="0"/>
+            <xs:element ref="avreg:Avregistreringsdatum" minOccurs="0"/>
+            <xs:element ref="avreg:Avlidendatum" minOccurs="0"/>
+            <xs:element ref="avreg:AntraffadDodDatum" minOccurs="0"/>
+            <xs:element ref="Fodelsedatum" minOccurs="0"/>
+            <xs:element ref="FodelselanKod" minOccurs="0"/>
+            <xs:element ref="Fodelseforsamling" minOccurs="0"/>
+            <xs:element ref="Kon" minOccurs="0"/>
+            <xs:element ref="SvenskMedborgare" minOccurs="0"/>
+            <xs:element ref="hanvisning:Hanvisning" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="sn:SnStatus" minOccurs="0"/>
+            <xs:element ref="sn:SnTilldelningsdatum" minOccurs="0"/>
+            <xs:element ref="sn:SnPreliminartVilandeforklaringsdatum" minOccurs="0"/>
+            <xs:element ref="sn:SnFornyelsedatum" minOccurs="0"/>
+            <xs:element ref="sn:SnVilandeorsak" minOccurs="0"/>
+            <xs:element ref="sn:SnVilandeforklaringsdatum" minOccurs="0"/>
+            <xs:element ref="sn:SnAvlidendatum" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="Fodelsedatum" type="datumtid:SparDatumTYPE"/>
+    <xs:annotation>
+        <xs:documentation>
+            Avser faktiskt födelsedatum.
+            Överensstämmer inte nödvändigtvis med personens id-nummer.
+        </xs:documentation>
+    </xs:annotation>
+
+    <xs:element name="FodelselanKod" type="FodelselanKodTYPE"/>
+    <xs:simpleType name="FodelselanKodTYPE">
+        <xs:annotation>
+            <xs:documentation>Länskod för födelselän</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{2}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="Fodelseforsamling" type="FodelseforsamlingTYPE"/>
+    <xs:simpleType name="FodelseforsamlingTYPE">
+        <xs:annotation>
+            <xs:documentation>Födelseförsamling i fritext</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="30"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="Kon" type="typ:KonTYPE"/>
+    <xs:element name="SvenskMedborgare" type="typ:JaNejTYPE"/>
+
+</xs:schema>

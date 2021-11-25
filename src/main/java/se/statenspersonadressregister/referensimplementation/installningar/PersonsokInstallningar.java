@@ -12,7 +12,7 @@ import java.util.Arrays;
 public class PersonsokInstallningar {
     private static final Logger log = LoggerFactory.getLogger(PersonsokInstallningar.class);
 
-    private String url = "https://kt-ext-ws.statenspersonadressregister.se/spar-webservice/SPARPersonsokningService/20160213/";
+    private String url = "https://kt-ext-ws.statenspersonadressregister.se/2021.1/";
 
     // Information om klientcertifikatet
     private String certifikatSokvag = getClass().getResource("/Kommun_A.p12").getFile();
@@ -26,7 +26,7 @@ public class PersonsokInstallningar {
     private Integer kundNrLeveransMottagare = 500243;
     private Integer kundNrSlutkund = 500243;
     private Long uppdragsId = 637L;
-    private String slutAnvandarId = "Anställd X på avdelning B";
+    private String slutAnvandarId = "Anställd X på avdelning B (Referensimplementation 2021.1 - Java)";
     private String orgNrSlutkund = "0000000000";
 
     /**

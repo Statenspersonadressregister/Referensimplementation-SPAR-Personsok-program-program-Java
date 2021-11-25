@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://statenspersonadressregister.se/schema/komponent/sok/undantag-1.0"
+           targetNamespace="http://statenspersonadressregister.se/schema/komponent/sok/undantag-1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified">
+    <xs:annotation>
+        <xs:appinfo>
+            <xs:documentation>
+                Skapad 2021-10-08
+            </xs:documentation>
+        </xs:appinfo>
+    </xs:annotation>
+
+    <xs:element name="Undantag" type="UndantagTYPE">
+        <xs:annotation>
+            <xs:documentation>Anger felkod och beskrivning om ett fel uppstår</xs:documentation>
+        </xs:annotation>
+    </xs:element>
+    <xs:complexType name="UndantagTYPE">
+        <xs:sequence>
+            <xs:element name="Kod" type="xs:string"/>
+            <xs:element name="Beskrivning" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="OverstigerMaxAntalSvarsposter" type="OverstigerMaxAntalSvarsposterTYPE">
+        <xs:annotation>
+            <xs:documentation>
+                Visas då antalet poster som matchar sökkriterierna överskrider max antal
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+    <xs:complexType name="OverstigerMaxAntalSvarsposterTYPE">
+        <xs:sequence>
+            <xs:element name="AntalPoster" type="xs:int"/>
+            <xs:element name="MaxAntalSvarsposter" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

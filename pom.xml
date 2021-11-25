@@ -7,7 +7,7 @@
     <name>SPAR personsök referensimplementation</name>
     <groupId>se.statenspersonadressregister.referensimplementation</groupId>
     <artifactId>personsok</artifactId>
-    <version>2019.1</version>
+    <version>2021.1</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -29,7 +29,7 @@
                             <goal>wsimport</goal>
                         </goals>
                         <configuration>
-                            <wsdlDirectory>src/main/resources/se/statenspersonadressregister/</wsdlDirectory>
+                            <wsdlDirectory>src/main/resources/se/statenspersonadressregister/granssnitt/personsok/2021.1/</wsdlDirectory>
                             <wsdlFiles>personsok.wsdl</wsdlFiles>
                         </configuration>
                         <id>wsimport-web-service</id>
@@ -44,7 +44,7 @@
                     <xnocompile>true</xnocompile>
                     <verbose>true</verbose>
                     <extension>true</extension>
-                    <catalog>src/main/resources/se/statenspersonadressregister/catalog-mvn.cat</catalog>
+                    <catalog>src/main/resources/se/statenspersonadressregister/catalog-mvn.xml</catalog>
                 </configuration>
             </plugin>
 
@@ -98,13 +98,13 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.5.1</version>
+            <version>5.8.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.5.1</version>
+            <version>5.8.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://statenspersonadressregister.se/schema/komponent/person/adress/kontaktadress-1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:adress="http://statenspersonadressregister.se/schema/komponent/person/adress/deladeadresselement-1.1"
+           targetNamespace="http://statenspersonadressregister.se/schema/komponent/person/adress/kontaktadress-1.0"
+           elementFormDefault="qualified">
+    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/person/adress/deladeadresselement-1.1" schemaLocation="DeladeAdressElement-1.1.xsd"/>
+    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/generellt/datumtid-1.1" schemaLocation="../../generellt/DatumTid-1.1.xsd"/>
+    <xs:annotation>
+        <xs:appinfo>
+            <xs:documentation>
+                Skapad 2021-10-08
+            </xs:documentation>
+        </xs:appinfo>
+    </xs:annotation>
+
+    <xs:element name="Kontaktadress" type="KontaktadressTYPE"/>
+    <xs:complexType name="KontaktadressTYPE">
+        <xs:annotation>
+            <xs:documentation>
+                Adress för att kontakta person med samordningsnummer
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:choice>
+                <xs:element ref="adress:SvenskAdress"/>
+                <xs:element ref="adress:InternationellAdress"/>
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

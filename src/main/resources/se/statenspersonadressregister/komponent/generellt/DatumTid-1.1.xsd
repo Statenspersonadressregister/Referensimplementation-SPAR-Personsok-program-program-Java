@@ -1,22 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns="http://statenspersonadressregister.se/schema/komponent/datum-1.0"
+<xs:schema xmlns="http://statenspersonadressregister.se/schema/komponent/generellt/datumtid-1.1"
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           targetNamespace="http://statenspersonadressregister.se/schema/komponent/datum-1.0"
-           elementFormDefault="qualified" version="0.9">
+           targetNamespace="http://statenspersonadressregister.se/schema/komponent/generellt/datumtid-1.1"
+           elementFormDefault="qualified">
     <xs:annotation>
         <xs:appinfo>
-            <SchemaMetadata xmlns="http://xmls.skatteverket.se/se/skatteverket/zl/SchemaMetadata/1.0"
-                            xmlns:dc="http://purl.org/dc/elements/1.1/">
-                <dc:title>Datum i SPAR</dc:title>
-                <dc:description>Datum i SPAR</dc:description>
-                <dc:publisher>Skatteverket SPAR</dc:publisher>
-                <dc:creator>
-                    <dc:contact>www.statenspersonadressregister.se</dc:contact>
-                </dc:creator>
-                <dc:date>
-                    <dc:created>2019-08-01</dc:created>
-                </dc:date>
-            </SchemaMetadata>
+            <xs:documentation>
+                Skapad 2021-10-08
+            </xs:documentation>
         </xs:appinfo>
     </xs:annotation>
 
@@ -27,8 +18,8 @@
         <xs:sequence>
             <xs:annotation>
                 <xs:documentation>
-                    Datum från och med och datum till skickas när historik används.
-                    Datum till 9999-12-31 betyder att det är en aktuell post.
+                    Elementen DatumFrom och DatumTill visas enbart då historik används.
+                    DatumTill 9999-12-31 markerar aktuell post.
                 </xs:documentation>
             </xs:annotation>
             <xs:element ref="DatumFrom"/>
@@ -39,7 +30,7 @@
     <xs:simpleType name="SparDatumTYPE">
         <xs:annotation>
             <xs:documentation>
-                Ett datum på format YYYY-MM-DD.
+                Ett datum på format YYYY-MM-DD
             </xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:date">
@@ -49,7 +40,7 @@
     <xs:simpleType name="SparOfullstandigtDatumTYPE">
         <xs:annotation>
             <xs:documentation>
-                Datum som kan vara helt eller delvis ofullständigt.
+                Datum som kan vara ofullständigt.
 
                 Formatterat som YYYY-MM-DD, om datumvärdet har åtta siffror. Annars 0 till 7 siffror (utan avskiljare).
                 Exempel:
@@ -63,6 +54,15 @@
             </xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string"/>
+    </xs:simpleType>
+
+    <xs:element name="Tidsstampel" type="TidsstampelTYPE"/>
+
+    <xs:simpleType name="TidsstampelTYPE">
+        <xs:annotation>
+            <xs:documentation>Datum och tid med millisekunder på formatet YYYY-MM-DDThh:mm:ss.nnn.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:dateTime"/>
     </xs:simpleType>
 
 </xs:schema>

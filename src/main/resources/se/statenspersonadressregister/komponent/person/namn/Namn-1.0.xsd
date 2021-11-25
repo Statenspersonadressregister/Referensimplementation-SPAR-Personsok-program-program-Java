@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://statenspersonadressregister.se/schema/komponent/person/namn/namn-1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:namn="http://statenspersonadressregister.se/schema/komponent/person/namn/deladenamnelement-1.0"
+           xmlns:datumtid="http://statenspersonadressregister.se/schema/komponent/generellt/datumtid-1.1"
+           targetNamespace="http://statenspersonadressregister.se/schema/komponent/person/namn/namn-1.0"
+           elementFormDefault="qualified">
+    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/person/namn/deladenamnelement-1.0" schemaLocation="DeladeNamnElement-1.0.xsd"/>
+    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/generellt/datumtid-1.1" schemaLocation="../../generellt/DatumTid-1.1.xsd"/>
+    <xs:annotation>
+        <xs:appinfo>
+            <xs:documentation>
+                Skapad 2021-10-08
+            </xs:documentation>
+        </xs:appinfo>
+    </xs:annotation>
+
+    <xs:element name="Namn" type="NamnTYPE"/>
+    <xs:complexType name="NamnTYPE">
+        <xs:sequence>
+            <xs:group ref="datumtid:DatumIntervall" minOccurs="0"/>
+            <xs:element ref="namn:Aviseringsnamn" minOccurs="0"/>
+            <xs:element ref="namn:Fornamn" minOccurs="0"/>
+            <xs:element ref="namn:Tilltalsnamn" minOccurs="0"/>
+            <xs:element ref="namn:Mellannamn" minOccurs="0"/>
+            <xs:element ref="namn:Efternamn" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

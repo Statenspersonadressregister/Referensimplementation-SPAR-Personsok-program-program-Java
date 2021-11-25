@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://statenspersonadressregister.se/schema/komponent/person/samordningsnummer-1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:datumtid="http://statenspersonadressregister.se/schema/komponent/generellt/datumtid-1.1"
+           targetNamespace="http://statenspersonadressregister.se/schema/komponent/person/samordningsnummer-1.0"
+           elementFormDefault="qualified">
+    <xs:import namespace="http://statenspersonadressregister.se/schema/komponent/generellt/datumtid-1.1" schemaLocation="../generellt/DatumTid-1.1.xsd"/>
+    <xs:annotation>
+        <xs:appinfo>
+            <xs:documentation>
+                Skapad 2021-10-08
+            </xs:documentation>
+        </xs:appinfo>
+    </xs:annotation>
+
+    <xs:element name="SnTilldelningsdatum" type="datumtid:SparOfullstandigtDatumTYPE"/>
+    <xs:element name="SnPreliminartVilandeforklaringsdatum" type="datumtid:SparOfullstandigtDatumTYPE"/>
+    <xs:element name="SnFornyelsedatum" type="datumtid:SparOfullstandigtDatumTYPE"/>
+    <xs:element name="SnVilandeorsak" type="xs:string"/>
+    <xs:element name="SnVilandeforklaringsdatum" type="datumtid:SparOfullstandigtDatumTYPE"/>
+    <xs:element name="SnAvlidendatum" type="datumtid:SparOfullstandigtDatumTYPE"/>
+    <xs:element name="SnStatus" type="xs:string"/>
+
+</xs:schema>
