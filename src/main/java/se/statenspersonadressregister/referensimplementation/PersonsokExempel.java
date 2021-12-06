@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.statenspersonadressregister.personsok._2021.PersonsokService;
 import se.statenspersonadressregister.personsok._2021.PersonsokService_Service;
-import se.statenspersonadressregister.referensimplementation.installningar.KlientCertifikatInformation;
+import se.statenspersonadressregister.referensimplementation.installningar.OrganisationscertifikatInformation;
 import se.statenspersonadressregister.referensimplementation.installningar.PersonsokInstallningar;
 import se.statenspersonadressregister.referensimplementation.validering.ValidationHandlerResolver;
 import se.statenspersonadressregister.schema.komponent.generellt.typ_1.JaNejTYPE;
@@ -13,8 +13,6 @@ import se.statenspersonadressregister.schema.komponent.sok.personsokningsokparam
 import se.statenspersonadressregister.schema.personsok._2021_1.personsokningfraga.SPARPersonsokningFraga;
 import se.statenspersonadressregister.schema.personsok._2021_1.personsokningsvar.SPARPersonsokningSvar;
 
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.WebServiceException;
 import java.io.IOException;
@@ -23,13 +21,13 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
-import java.text.SimpleDateFormat;
 import java.util.Map;
 
+import static com.sun.xml.ws.developer.JAXWSProperties.SSL_SOCKET_FACTORY;
 import static java.util.Objects.isNull;
 import static javax.xml.ws.BindingProvider.ENDPOINT_ADDRESS_PROPERTY;
 import static se.statenspersonadressregister.referensimplementation.loggning.PersonsokExempelLogger.logSPARPersonsokningSvar;
-import static se.statenspersonadressregister.referensimplementation.verktyg.KlientCertifikatSSLContext.createSSLContextMedKlientCertfikikat;
+import static se.statenspersonadressregister.referensimplementation.verktyg.OrganisationscertifikatSSLContext.createSSLContextMedOrganisationscertifikat;
 
 /**
  * Referensimplementation till SPAR Personsök program-program, version 2021.1.
@@ -42,17 +40,12 @@ import static se.statenspersonadressregister.referensimplementation.verktyg.Klie
 public class PersonsokExempel {
     private static final Logger log = LoggerFactory.getLogger(PersonsokExempel.class);
 
-    private static final String SSL_SOCKET_FACTORY = "com.sun.xml.internal.ws.transport.https.client.SSLSocketFactory";
-
-    private static final SimpleDateFormat TIDSTAMPEL_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-
     private final PersonsokInstallningar personsokInstallningar;
-    private final DatatypeFactory datatypeFactory;
 
     private final se.statenspersonadressregister.schema.komponent.metadata.identifieringsinformationws_1.ObjectFactory
-        identifieringsInformationFactory = new se.statenspersonadressregister.schema.komponent.metadata.identifieringsinformationws_1.ObjectFactory();
+            identifieringsInformationFactory = new se.statenspersonadressregister.schema.komponent.metadata.identifieringsinformationws_1.ObjectFactory();
     private final se.statenspersonadressregister.schema.komponent.sok.personsokningsokparametrar_1.ObjectFactory
-        personsokningSokParametrarFactory = new se.statenspersonadressregister.schema.komponent.sok.personsokningsokparametrar_1.ObjectFactory();
+            personsokningSokParametrarFactory = new se.statenspersonadressregister.schema.komponent.sok.personsokningsokparametrar_1.ObjectFactory();
 
     /**
      * Skapar en instans av PersonsokExempel och kör demonstrationen
@@ -62,7 +55,7 @@ public class PersonsokExempel {
         new PersonsokExempel(personsokInstallningar).demonstration();
     }
 
-    protected PersonsokService createClient(String url, KlientCertifikatInformation certifikatInformation) throws CertificateException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException, IOException {
+    protected PersonsokService createClient(String url, OrganisationscertifikatInformation certifikatInformation) throws CertificateException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException, IOException {
         PersonsokService_Service service = new PersonsokService_Service();
 
         // Här sätts ValidationHandlerResolver som gör att anrop valideras före de skickas
@@ -72,8 +65,8 @@ public class PersonsokExempel {
         BindingProvider bindingProvider = (BindingProvider) serviceSOAP;
         Map<String, Object> requestContext = bindingProvider.getRequestContext();
 
-        // Här sätts att anrop ska använda SSLContext med klientcertifikatet
-        requestContext.put(SSL_SOCKET_FACTORY, createSSLContextMedKlientCertfikikat(certifikatInformation).getSocketFactory());
+        // Här sätts att anrop ska använda SSLContext med organisationscertifikat
+        requestContext.put(SSL_SOCKET_FACTORY, createSSLContextMedOrganisationscertifikat(certifikatInformation).getSocketFactory());
 
         // Här sätts vilken url som ska anropas
         requestContext.put(ENDPOINT_ADDRESS_PROPERTY, url);
@@ -87,13 +80,6 @@ public class PersonsokExempel {
 
     public PersonsokExempel(PersonsokInstallningar installningar) {
         this.personsokInstallningar = installningar;
-
-        try {
-            datatypeFactory = DatatypeFactory.newInstance();
-        } catch (DatatypeConfigurationException e) {
-            log.error("Kunde inte skapa DatatypeFactory", e);
-            throw new IllegalStateException("Kunde inte skapa DatatypeFactory", e);
-        }
     }
 
     /**
@@ -102,40 +88,52 @@ public class PersonsokExempel {
     private void demonstration() throws CertificateException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException, IOException {
         log.info("Startar demonstration av Personsök program-program, version 2021.1");
 
-        PersonsokService personsokClient = createClient("https://kt-ext-ws.statenspersonadressregister.se/2021.1/", createKlientCertifikatInformation());
+        PersonsokService personsokClient = createClient(
+                personsokInstallningar.getUrl(),
+                createOrganisationscertifikatInformation());
 
         final String personId = "197910312391";
         log.debug("Sökning på personid " + personId);
         SPARPersonsokningSvar svarPersonIdSokning = personsokClient.personSok(
-            createSPARPersonsokningFraga(createIdentifieringsInformation(), createPersonsokningFragaPersonId(personId)));
+                createSPARPersonsokningFraga(
+                        createIdentifieringsInformation(),
+                        createPersonsokningFragaPersonId(personId)));
 
         logSPARPersonsokningSvar(svarPersonIdSokning);
 
         log.debug("Sökning på felaktigt personid");
         try {
             personsokClient.personSok(
-                createSPARPersonsokningFraga(createIdentifieringsInformation(), createPersonsokningFragaPersonId("000000000000")));
+                    createSPARPersonsokningFraga(
+                            createIdentifieringsInformation(),
+                            createPersonsokningFragaPersonId("000000000000")));
         } catch (WebServiceException e) {
             log.debug("Felaktigt personid ger WebServiceException", e);
         }
 
         log.debug("Fonetisk sökning, mikael");
         SPARPersonsokningSvar svarFonetiskt = personsokClient.personSok(
-            createSPARPersonsokningFraga(createIdentifieringsInformation(), createPersonsokningFragaFonetiskNamnSok("mikael efter*")));
+                createSPARPersonsokningFraga(
+                        createIdentifieringsInformation(),
+                        createPersonsokningFragaFonetiskNamnSok("mikael efter*")));
         logSPARPersonsokningSvar(svarFonetiskt);
 
         log.debug("Fonetisk sökning, inga träffar");
         SPARPersonsokningSvar svarFonetiskNollTraffar = personsokClient.personSok(
-            createSPARPersonsokningFraga(createIdentifieringsInformation(), createPersonsokningFragaFonetiskNamnSok("dethärnamnetfinnsinteispar")));
+                createSPARPersonsokningFraga(
+                        createIdentifieringsInformation(),
+                        createPersonsokningFragaFonetiskNamnSok("dethärnamnetfinnsinteispar")));
         logSPARPersonsokningSvar(svarFonetiskNollTraffar);
 
         log.debug("Fonetisk sökning, överskridning av max antal träffar");
         SPARPersonsokningSvar svarFonetiskForManga = personsokClient.personSok(
-            createSPARPersonsokningFraga(createIdentifieringsInformation(), createPersonsokningFragaFonetiskNamnSok("an*")));
+                createSPARPersonsokningFraga(
+                        createIdentifieringsInformation(),
+                        createPersonsokningFragaFonetiskNamnSok("an*")));
         logSPARPersonsokningSvar(svarFonetiskForManga);
     }
 
-    protected KlientCertifikatInformation createKlientCertifikatInformation() {
+    protected OrganisationscertifikatInformation createOrganisationscertifikatInformation() {
         String certifikatSokvag = personsokInstallningar.getCertifikatSokvag();
         if (isNull(certifikatSokvag) || certifikatSokvag.isEmpty()) {
             return null;
@@ -144,15 +142,15 @@ public class PersonsokExempel {
             String caSokvag = personsokInstallningar.getCaSokvag();
 
             if (isNull(caSokvag) || caSokvag.isEmpty()) {
-                return new KlientCertifikatInformation(
-                    certifikatSokvag,
-                    certifikatLosenord);
+                return new OrganisationscertifikatInformation(
+                        certifikatSokvag,
+                        certifikatLosenord);
             } else {
-                return new KlientCertifikatInformation(
-                    certifikatSokvag,
-                    certifikatLosenord,
-                    caSokvag,
-                    personsokInstallningar.getCaLosenord());
+                return new OrganisationscertifikatInformation(
+                        certifikatSokvag,
+                        certifikatLosenord,
+                        caSokvag,
+                        personsokInstallningar.getCaLosenord());
             }
         }
     }

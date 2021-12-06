@@ -21,7 +21,7 @@ class PersonsokExempelTest {
         personsokExempel = new PersonsokExempel();
         personsokKlient = personsokExempel.createClient(
                 "https://kt-ext-ws.statenspersonadressregister.se/2021.1/",
-                personsokExempel.createKlientCertifikatInformation());
+                personsokExempel.createOrganisationscertifikatInformation());
     }
 
     @Test
@@ -29,8 +29,8 @@ class PersonsokExempelTest {
         PersonsokningFragaTYPE personsokningType = personsokExempel.createPersonsokningFragaPersonId("197910312391");
 
         SPARPersonsokningFraga sparPersonsokningFraga = personsokExempel.createSPARPersonsokningFraga(
-            personsokExempel.createIdentifieringsInformation(),
-            personsokningType);
+                personsokExempel.createIdentifieringsInformation(),
+                personsokningType);
         SPARPersonsokningSvar svar = personsokKlient.personSok(sparPersonsokningFraga);
 
         assertNull(svar.getOverstigerMaxAntalSvarsposter());
@@ -46,8 +46,8 @@ class PersonsokExempelTest {
             PersonsokningFragaTYPE personsokningType = personsokExempel.createPersonsokningFragaPersonId("000000000000");
 
             SPARPersonsokningFraga sparPersonsokningFraga = personsokExempel.createSPARPersonsokningFraga(
-                personsokExempel.createIdentifieringsInformation(),
-                personsokningType);
+                    personsokExempel.createIdentifieringsInformation(),
+                    personsokningType);
             SPARPersonsokningSvar svar = personsokKlient.personSok(sparPersonsokningFraga);
         });
     }
@@ -57,8 +57,8 @@ class PersonsokExempelTest {
         PersonsokningFragaTYPE personsokningFragaType = personsokExempel.createPersonsokningFragaFonetiskNamnSok("mikael");
 
         SPARPersonsokningFraga sparPersonsokningFraga = personsokExempel.createSPARPersonsokningFraga(
-            personsokExempel.createIdentifieringsInformation(),
-            personsokningFragaType);
+                personsokExempel.createIdentifieringsInformation(),
+                personsokningFragaType);
         SPARPersonsokningSvar svar = personsokKlient.personSok(sparPersonsokningFraga);
 
         assertNull(svar.getOverstigerMaxAntalSvarsposter());
@@ -71,8 +71,8 @@ class PersonsokExempelTest {
         PersonsokningFragaTYPE personsokningFragaType = personsokExempel.createPersonsokningFragaFonetiskNamnSok("dethärnamnetfinnsinteispar");
 
         SPARPersonsokningFraga sparPersonsokningFraga = personsokExempel.createSPARPersonsokningFraga(
-            personsokExempel.createIdentifieringsInformation(),
-            personsokningFragaType);
+                personsokExempel.createIdentifieringsInformation(),
+                personsokningFragaType);
         SPARPersonsokningSvar svar = personsokKlient.personSok(sparPersonsokningFraga);
 
         assertNull(svar.getOverstigerMaxAntalSvarsposter());
@@ -85,8 +85,8 @@ class PersonsokExempelTest {
         PersonsokningFragaTYPE personsokningFragaType = personsokExempel.createPersonsokningFragaFonetiskNamnSok("an*");
 
         SPARPersonsokningFraga sparPersonsokningFraga = personsokExempel.createSPARPersonsokningFraga(
-            personsokExempel.createIdentifieringsInformation(),
-            personsokningFragaType);
+                personsokExempel.createIdentifieringsInformation(),
+                personsokningFragaType);
         SPARPersonsokningSvar svar = personsokKlient.personSok(sparPersonsokningFraga);
 
         assertNotNull(svar.getOverstigerMaxAntalSvarsposter());

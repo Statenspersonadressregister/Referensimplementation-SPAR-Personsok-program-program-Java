@@ -92,7 +92,7 @@ public class PersonsokExempelLogger {
 
     private static void logSarskildPostadress(StringBuilder sb, List<SarskildPostadressTYPE> sarskildaPostadresser) {
         sarskildaPostadresser.forEach(adr -> {
-            if(nonNull(adr.getSvenskAdress())){
+            if (nonNull(adr.getSvenskAdress())) {
                 sb.append(SARSKILD_POSTADRESS + RADBRYT);
                 logSvenskadress(sb, adr.getSvenskAdress());
             } else {
@@ -112,7 +112,7 @@ public class PersonsokExempelLogger {
 
     private static void logKontaktadress(StringBuilder sb, List<KontaktadressTYPE> kontaktadresser) {
         kontaktadresser.forEach(adr -> {
-            if(nonNull(adr.getSvenskAdress())){
+            if (nonNull(adr.getSvenskAdress())) {
                 sb.append(KONTAKTADRESS + RADBRYT);
                 logSvenskadress(sb, adr.getSvenskAdress());
             } else {

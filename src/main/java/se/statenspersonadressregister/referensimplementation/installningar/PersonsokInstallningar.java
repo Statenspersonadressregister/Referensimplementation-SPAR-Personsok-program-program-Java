@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 
+import static java.util.Arrays.asList;
+
 /**
  * Behållare för olika inställningar, förifyllda värden är giltiga för att
  * kunna köra mot kundtest utan att behöva ange något explicit.
@@ -14,7 +16,7 @@ public class PersonsokInstallningar {
 
     private String url = "https://kt-ext-ws.statenspersonadressregister.se/2021.1/";
 
-    // Information om klientcertifikatet
+    // Information om organisationscertifikatet
     private String certifikatSokvag = getClass().getResource("/Kommun_A.p12").getFile();
     private String certifikatLosenord = "5761213661378233";
 
@@ -27,7 +29,6 @@ public class PersonsokInstallningar {
     private Integer kundNrSlutkund = 500243;
     private Long uppdragsId = 637L;
     private String slutAnvandarId = "Anställd X på avdelning B (Referensimplementation 2021.1 - Java)";
-    private String orgNrSlutkund = "0000000000";
 
     /**
      * Skapar en en instans med default inställningar
@@ -37,10 +38,10 @@ public class PersonsokInstallningar {
 
     /**
      * Skapar en instans där inställningar sätts med argument, exempel "url=http://localhost certifikatsokvag=/mitt/certifikat.p12".
-     * För att inte använda klientcertifikat, "certifikatsokvag= " (utan något värde).
+     * För att inte använda organisationscertifikat, "certifikatsokvag= " (utan något värde).
      */
     public PersonsokInstallningar(String[] args) {
-        Arrays.asList(args).forEach(this::bearbetaArgument);
+        asList(args).forEach(this::bearbetaArgument);
     }
 
     private void bearbetaArgument(String argument) {
@@ -69,9 +70,6 @@ public class PersonsokInstallningar {
                     break;
                 case "slutanvandarid":
                     slutAnvandarId = split[1];
-                    break;
-                case "orgnrslutkund":
-                    orgNrSlutkund = split[1];
                     break;
                 case "casokvag":
                     caSokvag = split[1];
@@ -113,10 +111,6 @@ public class PersonsokInstallningar {
 
     public String getSlutAnvandarId() {
         return slutAnvandarId;
-    }
-
-    public String getOrgNrSlutkund() {
-        return orgNrSlutkund;
     }
 
     public String getCaSokvag() {
