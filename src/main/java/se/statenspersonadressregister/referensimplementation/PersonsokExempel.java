@@ -92,7 +92,7 @@ public class PersonsokExempel {
                 personsokInstallningar.getUrl(),
                 createOrganisationscertifikatInformation());
 
-        final String personId = "197910312391";
+        final String personId = "198111309285";
         log.debug("Sökning på personid " + personId);
         SPARPersonsokningSvar svarPersonIdSokning = personsokClient.personSok(
                 createSPARPersonsokningFraga(
@@ -129,7 +129,7 @@ public class PersonsokExempel {
         SPARPersonsokningSvar svarFonetiskForManga = personsokClient.personSok(
                 createSPARPersonsokningFraga(
                         createIdentifieringsInformation(),
-                        createPersonsokningFragaFonetiskNamnSok("an*")));
+                        createPersonsokningFragaFonetiskNamnSok("efternamn*")));
         logSPARPersonsokningSvar(svarFonetiskForManga);
     }
 

@@ -26,7 +26,7 @@ class PersonsokExempelTest {
 
     @Test
     void sokningGiltigtPersonId() {
-        PersonsokningFragaTYPE personsokningType = personsokExempel.createPersonsokningFragaPersonId("197910312391");
+        PersonsokningFragaTYPE personsokningType = personsokExempel.createPersonsokningFragaPersonId("198111309285");
 
         SPARPersonsokningFraga sparPersonsokningFraga = personsokExempel.createSPARPersonsokningFraga(
                 personsokExempel.createIdentifieringsInformation(),
@@ -36,8 +36,8 @@ class PersonsokExempelTest {
         assertNull(svar.getOverstigerMaxAntalSvarsposter());
         assertNull(svar.getUndantag());
         assertEquals(1, svar.getPersonsokningSvarspost().size());
-        assertEquals("Jerry Felipe", svar.getPersonsokningSvarspost().get(0).getNamn().get(0).getFornamn());
-        assertEquals("Efternamn3663", svar.getPersonsokningSvarspost().get(0).getNamn().get(0).getEfternamn());
+        assertEquals("Sonja", svar.getPersonsokningSvarspost().get(0).getNamn().get(0).getFornamn());
+        assertEquals("Efternamn1058", svar.getPersonsokningSvarspost().get(0).getNamn().get(0).getEfternamn());
     }
 
     @Test
@@ -63,7 +63,7 @@ class PersonsokExempelTest {
 
         assertNull(svar.getOverstigerMaxAntalSvarsposter());
         assertNull(svar.getUndantag());
-        assertTrue(svar.getPersonsokningSvarspost().size() > 1);
+        assertTrue(svar.getPersonsokningSvarspost().size() > 0);
     }
 
     @Test
@@ -82,7 +82,7 @@ class PersonsokExempelTest {
 
     @Test
     void sokningFonetiskForMangaTraffar() {
-        PersonsokningFragaTYPE personsokningFragaType = personsokExempel.createPersonsokningFragaFonetiskNamnSok("an*");
+        PersonsokningFragaTYPE personsokningFragaType = personsokExempel.createPersonsokningFragaFonetiskNamnSok("efternamn*");
 
         SPARPersonsokningFraga sparPersonsokningFraga = personsokExempel.createSPARPersonsokningFraga(
                 personsokExempel.createIdentifieringsInformation(),
