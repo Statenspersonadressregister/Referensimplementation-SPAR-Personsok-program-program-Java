@@ -18,7 +18,7 @@ public class PersonsokInstallningar {
 
     // Information om organisationscertifikatet
     private String certifikatSokvag = getClass().getResource("/Kommun_A.p12").getFile();
-    private String certifikatLosenord = "5761213661378233";
+    private String certifikatLosenord = "4611510421732432";
 
     // Information om ca-certifikatet
     private String caSokvag = System.getProperty("java.home") + "/lib/security/cacerts";
