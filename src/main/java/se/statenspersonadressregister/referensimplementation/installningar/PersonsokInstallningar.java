@@ -14,7 +14,7 @@ import static java.util.Arrays.asList;
 public class PersonsokInstallningar {
     private static final Logger log = LoggerFactory.getLogger(PersonsokInstallningar.class);
 
-    private String url = "https://kt-ext-ws.statenspersonadressregister.se/2021.1/";
+    private String url = "https://test-personsok.statenspersonadressregister.se/2021.1/";
 
     // Information om organisationscertifikatet
     private String certifikatSokvag = getClass().getResource("/Kommun_A.p12").getFile();

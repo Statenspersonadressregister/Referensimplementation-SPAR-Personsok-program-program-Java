@@ -20,7 +20,7 @@ class PersonsokExempelTest {
     static void setup() throws Exception {
         personsokExempel = new PersonsokExempel();
         personsokKlient = personsokExempel.createClient(
-                "https://kt-ext-ws.statenspersonadressregister.se/2021.1/",
+                "https://test-personsok.statenspersonadressregister.se/2021.1/",
                 personsokExempel.createOrganisationscertifikatInformation());
     }
 
